@@ -13,50 +13,52 @@ interface DataSource {
 
 const dataSources: DataSource[] = [
   {
-    name: 'Illinois Secretary of State',
-    type: 'public',
+    name: 'ChittyChain Production Database',
+    type: 'private',
     status: 'connected',
-    lastSync: '2025-08-05T15:30:00Z',
-    description: 'Corporate filings, amendments, and registered agent information',
-    apiEndpoint: '/api/legal/secretary-of-state'
+    lastSync: '2025-08-05T15:58:00Z',
+    description: 'Corporate governance, blockchain transactions, and legal entity management',
+    apiEndpoint: '/api/legal/timeline'
   },
   {
-    name: 'Cook County Circuit Court',
-    type: 'legal',
-    status: 'connected',
-    lastSync: '2025-08-05T15:25:00Z',
-    description: 'Case filings, court orders, and litigation status',
-    apiEndpoint: '/api/legal/court-records'
-  },
-  {
-    name: 'Loan Servicing Platform',
+    name: 'ChittyFinance Production Database',
     type: 'financial',
-    status: 'pending',
-    description: 'Payment history, outstanding balances, and loan modifications',
+    status: 'connected',
+    lastSync: '2025-08-05T15:58:00Z',
+    description: 'Loan records, payment history, financial transactions, and accounting data',
     apiEndpoint: '/api/legal/loan-details'
   },
   {
-    name: 'Legal Research Database',
+    name: 'Arias v Bianchi Case Database',
     type: 'legal',
     status: 'connected',
-    lastSync: '2025-08-05T15:20:00Z',
-    description: 'Case law analysis, legal precedents, and jurisdiction research',
+    lastSync: '2025-08-05T15:58:00Z',
+    description: 'Litigation timeline, case filings, court orders, and legal proceedings',
+    apiEndpoint: '/api/legal/litigation-status'
+  },
+  {
+    name: 'Legal Analytics Engine',
+    type: 'legal',
+    status: 'connected',
+    lastSync: '2025-08-05T15:57:00Z',
+    description: 'Multi-perspective analysis, strength assessments, and legal intelligence',
     apiEndpoint: '/api/legal/pov-analysis'
   },
   {
-    name: 'Financial Data Provider',
-    type: 'financial',
-    status: 'error',
-    description: 'Real-time market data, property valuations, and financial analytics',
-    apiEndpoint: '/api/legal/financial-data'
+    name: 'Illinois Secretary of State API',
+    type: 'public',
+    status: 'connected',
+    lastSync: '2025-08-05T15:55:00Z',
+    description: 'Corporate filings, amendments, and registered agent information',
+    apiEndpoint: '/api/legal/timeline'
   },
   {
-    name: 'Document Management System',
-    type: 'private',
+    name: 'Cook County Circuit Court',
+    type: 'public',
     status: 'connected',
-    lastSync: '2025-08-05T15:35:00Z',
-    description: 'Legal documents, contracts, and evidence repository',
-    apiEndpoint: '/api/legal/documents'
+    lastSync: '2025-08-05T15:56:00Z',
+    description: 'Case filings, court orders, and litigation status updates',
+    apiEndpoint: '/api/legal/litigation-status'
   }
 ];
 

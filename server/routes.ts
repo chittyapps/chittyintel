@@ -1,118 +1,109 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { 
+  fetchTimelineFromDatabases, 
+  fetchLoanDetailsFromDatabase, 
+  fetchLitigationStatusFromDatabase, 
+  fetchPOVAnalysisFromDatabase,
+  checkDatabaseConnections 
+} from "./database-connections";
+import { setupProductionDatabases } from "./database-schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Legal Intelligence Data API
+  // Legal Intelligence Data API - Now Connected to Production Databases
   app.get("/api/legal/timeline", async (req, res) => {
     try {
-      // In production, this would connect to legal database or document management system
-      const liveData = await fetchLegalTimelineData();
-      res.json(liveData);
+      const timelineEvents = await fetchTimelineFromDatabases();
+      res.json({ events: timelineEvents });
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch timeline data" });
+      console.error('Timeline API error:', error);
+      res.status(500).json({ error: "Failed to fetch timeline data from databases" });
     }
   });
 
   app.get("/api/legal/loan-details", async (req, res) => {
     try {
-      // Connect to loan servicing system or financial database
-      const loanData = await fetchLoanDetails();
-      res.json(loanData);
+      const loanRecord = await fetchLoanDetailsFromDatabase();
+      if (loanRecord) {
+        res.json({
+          principal: loanRecord.principal_amount,
+          interestRate: loanRecord.interest_rate,
+          status: loanRecord.current_status,
+          borrower: loanRecord.borrower_entity,
+          lender: loanRecord.lender_name,
+          originationDate: loanRecord.origination_date,
+          outstandingBalance: loanRecord.outstanding_balance,
+          source: 'ChittyFinance Production Database',
+          lastUpdated: new Date().toISOString()
+        });
+      } else {
+        res.status(404).json({ error: "Loan record not found in database" });
+      }
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch loan details" });
+      console.error('Loan details API error:', error);
+      res.status(500).json({ error: "Failed to fetch loan details from database" });
     }
   });
 
   app.get("/api/legal/pov-analysis/:perspective", async (req, res) => {
     try {
       const { perspective } = req.params;
-      const analysisData = await fetchPOVAnalysis(perspective);
+      const analysisData = await fetchPOVAnalysisFromDatabase(perspective);
       res.json(analysisData);
     } catch (error) {
+      console.error('POV analysis API error:', error);
       res.status(500).json({ error: "Failed to fetch POV analysis" });
     }
   });
 
-  app.get("/api/legal/financial-data", async (req, res) => {
+  app.get("/api/legal/litigation-status", async (req, res) => {
     try {
-      // Connect to financial data provider or accounting system
-      const financialData = await fetchFinancialData();
-      res.json(financialData);
+      const litigationRecord = await fetchLitigationStatusFromDatabase();
+      res.json(litigationRecord);
     } catch (error) {
-      res.status(500).json({ error: "Failed to fetch financial data" });
+      console.error('Litigation status API error:', error);
+      res.status(500).json({ error: "Failed to fetch litigation status" });
+    }
+  });
+
+  app.get("/api/legal/database-status", async (req, res) => {
+    try {
+      const connections = await checkDatabaseConnections();
+      res.json({
+        status: 'Database connections checked',
+        connections,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Database status API error:', error);
+      res.status(500).json({ error: "Failed to check database connections" });
+    }
+  });
+
+  app.post("/api/legal/setup-databases", async (req, res) => {
+    try {
+      console.log('🚀 Setting up ChittyIntel production databases...');
+      const setupSuccess = await setupProductionDatabases();
+      
+      if (setupSuccess) {
+        res.json({
+          status: 'success',
+          message: 'Production databases initialized with legal intelligence data',
+          timestamp: new Date().toISOString()
+        });
+      } else {
+        res.status(500).json({
+          status: 'error',
+          message: 'Database setup failed - check server logs'
+        });
+      }
+    } catch (error) {
+      console.error('Database setup API error:', error);
+      res.status(500).json({ error: "Failed to setup databases" });
     }
   });
 
   const httpServer = createServer(app);
   return httpServer;
-}
-
-// Data fetching functions - these would connect to real data sources
-async function fetchLegalTimelineData() {
-  // This would connect to:
-  // - Court case management systems
-  // - Document repositories 
-  // - Legal database APIs
-  // - Case tracking systems
-  
-  // For now, return structured data that represents real sources
-  return {
-    events: [
-      {
-        id: 1,
-        title: 'ARIBIA LLC Formation',
-        date: '2022-08-01',
-        description: 'Operating Agreement executed - Retrieved from Secretary of State filings',
-        type: 'formation',
-        color: 'green',
-        source: 'Illinois Secretary of State API'
-      }
-      // More events would be fetched from real sources
-    ]
-  };
-}
-
-async function fetchLoanDetails() {
-  // This would connect to:
-  // - Loan servicing platforms
-  // - Banking APIs  
-  // - Financial institution databases
-  
-  return {
-    principal: 100000,
-    interestRate: 4.66,
-    status: 'Active - Under TRO',
-    source: 'Loan Servicing System',
-    lastUpdated: new Date().toISOString()
-  };
-}
-
-async function fetchPOVAnalysis(perspective: string) {
-  // This would connect to:
-  // - Legal research databases (Westlaw, LexisNexis)
-  // - Case law APIs
-  // - Legal analytics platforms
-  
-  return {
-    perspective,
-    analysis: `Live analysis for ${perspective} perspective`,
-    strengthScore: Math.floor(Math.random() * 100),
-    source: 'Legal Analytics Platform',
-    lastUpdated: new Date().toISOString()
-  };
-}
-
-async function fetchFinancialData() {
-  // This would connect to:
-  // - Financial data providers (Bloomberg, Reuters)
-  // - Accounting system APIs
-  // - Bank transaction feeds
-  
-  return {
-    capitalContributions: [],
-    outstandingObligations: [],
-    source: 'Financial Data Provider',
-    lastUpdated: new Date().toISOString()
-  };
 }
