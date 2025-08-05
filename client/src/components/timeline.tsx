@@ -30,20 +30,20 @@ export function Timeline({ events }: TimelineProps) {
 
   const getColorVar = (color: string) => {
     const colorMap: Record<string, string> = {
-      green: 'var(--aribia-green)',
-      amber: 'var(--aribia-amber)',
-      blue: 'var(--aribia-blue)',
-      purple: 'var(--aribia-purple)',
-      red: 'var(--aribia-red)'
+      green: 'var(--chitty-green)',
+      amber: 'var(--chitty-amber)',
+      blue: 'var(--chitty-blue)',
+      purple: 'var(--chitty-purple)',
+      red: 'var(--chitty-red)'
     };
-    return colorMap[color] || 'var(--aribia-purple)';
+    return colorMap[color] || 'var(--chitty-purple)';
   };
 
   return (
     <div className="modern-card rounded-2xl p-8 mb-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-foreground mb-2">ARIBIA Legal Intelligence Timeline</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-2">ChittyIntel Legal Timeline</h2>
           <p className="text-muted-foreground">Corporate evolution and key legal events • 2022-2025</p>
         </div>
         <div className="text-gradient text-sm font-semibold">Interactive Timeline</div>

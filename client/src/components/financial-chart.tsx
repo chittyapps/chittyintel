@@ -65,29 +65,29 @@ export function FinancialChart({ data }: FinancialChartProps) {
             <Line
               type="monotone"
               dataKey="contributions"
-              stroke="var(--aribia-purple)"
+              stroke="var(--chitty-purple)"
               strokeWidth={3}
               fill="url(#contributionsGradient)"
-              dot={{ fill: 'var(--aribia-purple)', strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: 'var(--aribia-purple)', strokeWidth: 2 }}
+              dot={{ fill: 'var(--chitty-purple)', strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: 'var(--chitty-purple)', strokeWidth: 2 }}
             />
             <Line
               type="monotone"
               dataKey="obligations"
-              stroke="var(--aribia-red)"
+              stroke="var(--chitty-red)"
               strokeWidth={3}
               fill="url(#obligationsGradient)"
-              dot={{ fill: 'var(--aribia-red)', strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: 'var(--aribia-red)', strokeWidth: 2 }}
+              dot={{ fill: 'var(--chitty-red)', strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: 'var(--chitty-red)', strokeWidth: 2 }}
             />
             <defs>
               <linearGradient id="contributionsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--aribia-purple)" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="var(--aribia-purple)" stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--chitty-purple)" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="var(--chitty-purple)" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="obligationsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--aribia-red)" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="var(--aribia-red)" stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--chitty-red)" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="var(--chitty-red)" stopOpacity={0}/>
               </linearGradient>
             </defs>
           </LineChart>

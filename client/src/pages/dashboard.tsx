@@ -15,25 +15,25 @@ export default function Dashboard() {
       title: "Loan Principal",
       value: `$${loanDetails.principal.toLocaleString()}`,
       icon: DollarSign,
-      color: 'var(--aribia-green)'
+      color: 'var(--chitty-green)'
     },
     {
       title: "Interest Rate",
       value: `${loanDetails.interestRate}%`,
       icon: Percent,
-      color: 'var(--aribia-blue)'
+      color: 'var(--chitty-blue)'
     },
     {
       title: "TRO Duration",
       value: "118 Days",
       icon: AlertTriangle,
-      color: 'var(--aribia-red)'
+      color: 'var(--chitty-red)'
     },
     {
       title: "Legal Status",
       value: "Active Litigation",
       icon: Scale,
-      color: 'var(--aribia-amber)'
+      color: 'var(--chitty-amber)'
     }
   ];
 
@@ -61,8 +61,8 @@ export default function Dashboard() {
                 <Brain className="text-white" size={24} />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gradient">ARIBIA Intelligence</h1>
-                <p className="text-sm text-muted-foreground">Legal & Financial Analysis Platform</p>
+                <h1 className="text-2xl font-bold text-gradient">ChittyIntel</h1>
+                <p className="text-sm text-muted-foreground">Advanced Legal Intelligence Platform</p>
               </div>
             </motion.div>
             
@@ -89,8 +89,8 @@ export default function Dashboard() {
         <div className="modern-card rounded-2xl p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-xl font-bold text-foreground mb-1">Point of View</h2>
-              <p className="text-muted-foreground text-sm">Select perspective for analysis</p>
+              <h2 className="text-xl font-bold text-foreground mb-1">Intelligence Perspective</h2>
+              <p className="text-muted-foreground text-sm">Select stakeholder viewpoint for analysis</p>
             </div>
             <Eye className="text-primary" size={20} />
           </div>
@@ -335,8 +335,8 @@ export default function Dashboard() {
                 <Brain className="text-white" size={16} />
               </div>
               <div>
-                <div className="font-semibold text-foreground">ARIBIA Intelligence Platform</div>
-                <div className="text-sm text-muted-foreground">Sophisticated Legal & Financial Analysis</div>
+                <div className="font-semibold text-foreground">ChittyIntel Platform</div>
+                <div className="text-sm text-muted-foreground">Advanced Legal Intelligence & Analytics</div>
               </div>
             </motion.div>
             <div className="text-sm text-muted-foreground">

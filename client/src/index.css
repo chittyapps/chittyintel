@@ -24,13 +24,13 @@
   --ring: hsl(262, 87%, 65%);
   --radius: 0.75rem;
   
-  /* ARIBIA Legal Intelligence Colors */
-  --aribia-purple: hsl(262, 87%, 65%);
-  --aribia-blue: hsl(235, 84%, 70%);
-  --aribia-cyan: hsl(185, 100%, 70%);
-  --aribia-green: hsl(145, 63%, 60%);
-  --aribia-amber: hsl(45, 98%, 65%);
-  --aribia-red: hsl(0, 84%, 60%);
+  /* ChittyIntel Legal Intelligence Colors */
+  --chitty-purple: hsl(262, 87%, 65%);
+  --chitty-blue: hsl(235, 84%, 70%);
+  --chitty-cyan: hsl(185, 100%, 70%);
+  --chitty-green: hsl(145, 63%, 60%);
+  --chitty-amber: hsl(45, 98%, 65%);
+  --chitty-red: hsl(0, 84%, 60%);
   --surface: hsl(220, 20%, 9%);
   --surface-alt: hsl(220, 15%, 12%);
   --glass: hsla(220, 20%, 9%, 0.8);
@@ -92,17 +92,21 @@
       0 2px 4px -2px hsla(0, 0%, 0%, 0.1);
   }
   
+  .chitty-gradient {
+    background: linear-gradient(135deg, var(--chitty-purple) 0%, var(--chitty-blue) 100%);
+  }
+  
   .aribia-gradient {
-    background: linear-gradient(135deg, var(--aribia-purple) 0%, var(--aribia-blue) 100%);
+    background: linear-gradient(135deg, var(--chitty-purple) 0%, var(--chitty-blue) 100%);
   }
   
   .timeline-gradient {
     background: linear-gradient(90deg, 
-      var(--aribia-purple) 0%, 
-      var(--aribia-blue) 25%,
-      var(--aribia-cyan) 50%,
-      var(--aribia-green) 75%,
-      var(--aribia-amber) 100%
+      var(--chitty-purple) 0%, 
+      var(--chitty-blue) 25%,
+      var(--chitty-cyan) 50%,
+      var(--chitty-green) 75%,
+      var(--chitty-amber) 100%
     );
   }
   

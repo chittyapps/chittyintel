@@ -1,8 +1,8 @@
 # Overview
 
-This is a document management system for ARIBIA LLC, a real estate investment company that manages rental properties across the United States and Colombia. The project appears to be focused on organizing, storing, and retrieving legal documents, financial records, and business communications for a complex business entity with multiple series LLCs and ongoing legal proceedings.
+ChittyIntel is an advanced legal intelligence platform designed for sophisticated analysis of complex litigation cases involving ARIBIA LLC, a real estate investment company. The platform provides multi-perspective stakeholder analysis, interactive timeline visualization, and comprehensive legal position assessment.
 
-The system manages various types of documents including property purchase agreements, operating agreements, loan documents, legal correspondence, financial statements, and corporate resolutions related to the company's real estate investment activities.
+The system analyzes legal documents, financial records, and business communications to provide intelligence across different viewpoints including business defense, lender perspectives, former member claims, legal neutral analysis, and international compliance considerations.
 
 # User Preferences
 
