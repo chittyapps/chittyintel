@@ -104,6 +104,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // ChittyBeacon monitoring endpoints
+  app.post('/api/beacon/events', async (req, res) => {
+    try {
+      const { events } = req.body;
+      
+      // Log beacon events to console in development
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`🔔 ChittyBeacon received ${events?.length || 0} events`);
+        events?.forEach((event: any) => {
+          const timestamp = new Date(event.timestamp).toISOString();
+          console.log(`[${timestamp}] ${event.severity.toUpperCase()} ${event.type}: ${event.message}`);
+        });
+      }
+
+      // Store events (for now just acknowledge receipt)
+      res.json({ 
+        success: true, 
+        processed: events?.length || 0,
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('ChittyBeacon error:', error);
+      res.status(500).json({ error: 'Failed to process beacon events' });
+    }
+  });
+
+  app.get('/api/beacon/status', async (req, res) => {
+    try {
+      // Return beacon system status
+      res.json({
+        status: 'active',
+        uptime: process.uptime(),
+        memory: process.memoryUsage(),
+        databases: {
+          chittychain: !!process.env.CHITTYCHAIN_DB_URL,
+          chittyfinance: !!process.env.CHITTYFINANCE_DB_URL,
+          ariasvbianchi: !!process.env.ARIASVBIANCHI_DB_URL
+        },
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('ChittyBeacon status error:', error);
+      res.status(500).json({ error: 'Failed to get beacon status' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

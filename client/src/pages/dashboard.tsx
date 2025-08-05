@@ -1,23 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as React from "react";
 import { Brain, DollarSign, Percent, AlertTriangle, Scale, Eye, BarChart3, Wifi, WifiOff, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { Timeline } from "@/components/timeline";
 import { FinancialChart } from "@/components/financial-chart";
 import { DataSourcesPanel } from "@/components/data-sources";
+import { ChittyBeaconMonitor } from "@/components/chitty-beacon-monitor";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLiveLoanDetails, useLiveTimelineData, useLivePOVAnalysis } from "@/hooks/use-live-data";
+import { useChittyBeacon } from "@/hooks/use-chitty-beacon";
 import { aribiaData } from "@/data/aribia-data";
 
 export default function Dashboard() {
   const [currentPOV, setCurrentPOV] = useState('aribia');
   const [dataMode, setDataMode] = useState<'live' | 'static'>('live');
+  const [beaconVisible, setBeaconVisible] = useState(false);
 
   // Live data hooks
   const { data: liveLoanData, isLoading: loanLoading, error: loanError } = useLiveLoanDetails();
   const { data: liveTimelineData, isLoading: timelineLoading } = useLiveTimelineData();
   const { data: livePOVData, isLoading: povLoading } = useLivePOVAnalysis(currentPOV);
+
+  // ChittyBeacon integration
+  const beacon = useChittyBeacon({
+    enabled: true,
+    endpoint: '/api/beacon/events',
+    bufferSize: 100,
+    flushInterval: 10000
+  });
 
   // Fallback to static data if live data fails
   const { loanDetails, timelineEvents, financialData } = aribiaData;
@@ -57,6 +69,48 @@ export default function Dashboard() {
     { id: 'legal', label: 'Legal Neutral', description: 'Court Analysis' },
     { id: 'colombia', label: 'Colombian Legal', description: 'International' }
   ];
+
+  // Handle POV switching with beacon tracking
+  const handlePOVChange = (newPOV: string) => {
+    const oldPOV = currentPOV;
+    setCurrentPOV(newPOV);
+    beacon.trackPOVSwitch(oldPOV, newPOV);
+    beacon.trackUserAction('pov_switch', `${oldPOV}_to_${newPOV}`);
+  };
+
+  // Track system initialization and data loading
+  React.useEffect(() => {
+    beacon.trackLegalEvent('dashboard_initialized', { 
+      initial_pov: currentPOV,
+      data_mode: dataMode,
+      live_data_available: isLiveDataAvailable
+    });
+
+    if (isLiveDataAvailable) {
+      beacon.trackDatabaseStatus('ChittyIntel', 'connected', { 
+        databases: ['ChittyChain', 'ChittyFinance', 'Arias v Bianchi']
+      });
+    }
+  }, []);
+
+  // Track data loading states
+  React.useEffect(() => {
+    if (loanLoading) {
+      beacon.trackFinancialEvent('loan_data_loading');
+    } else if (liveLoanData) {
+      beacon.trackFinancialEvent('loan_data_loaded', liveLoanData.principal, 'USD');
+    }
+  }, [loanLoading, liveLoanData]);
+
+  React.useEffect(() => {
+    if (timelineLoading) {
+      beacon.trackLegalEvent('timeline_data_loading');
+    } else if (liveTimelineData) {
+      beacon.trackLegalEvent('timeline_data_loaded', { 
+        event_count: liveTimelineData.events?.length || 0
+      });
+    }
+  }, [timelineLoading, liveTimelineData]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -154,7 +208,8 @@ export default function Dashboard() {
                     ? 'border-primary bg-primary/10' 
                     : 'border-border hover:border-primary/50'
                 }`}
-                onClick={() => setCurrentPOV(option.id)}
+                onClick={() => handlePOVChange(option.id)}
+                data-testid={`button-pov-${option.id}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
@@ -401,6 +456,15 @@ export default function Dashboard() {
           </div>
         </div>
       </footer>
+
+      {/* ChittyBeacon Monitor */}
+      <ChittyBeaconMonitor 
+        isVisible={beaconVisible} 
+        onToggle={() => {
+          setBeaconVisible(!beaconVisible);
+          beacon.trackUserAction('toggle_beacon_monitor', beaconVisible ? 'close' : 'open');
+        }}
+      />
     </div>
   );
 }

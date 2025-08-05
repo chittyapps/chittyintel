@@ -35,6 +35,23 @@ Preferred communication style: Simple, everyday language.
 - Role-based access control for document management
 - Secure file access controls for sensitive legal documents
 
+## Monitoring and Analytics
+- **ChittyBeacon**: Custom monitoring and telemetry system for real-time legal intelligence tracking
+  - Event tracking for legal events, financial transactions, and user interactions
+  - System health monitoring with database connection status
+  - Performance analytics with API response time monitoring
+  - Error tracking and diagnostics with automatic error reporting
+  - POV (Point of View) switching analytics for stakeholder perspective tracking
+  - Live event streaming with configurable flush intervals
+  - Development console integration with grouped event logging
+
+## Production Database Integration
+- **ChittyChain Database**: Corporate governance and legal events
+- **ChittyFinance Database**: Loan servicing and financial transactions
+- **Arias v Bianchi Case Database**: Litigation timeline and court records
+- **Authentication**: Production database secrets for secure multi-database connections
+- **Real-time Data**: Live API endpoints serving authentic legal and financial data
+
 ## External Dependencies
 - **Database**: Neon Database (PostgreSQL serverless)
 - **Development**: Vite for frontend bundling and development
@@ -42,4 +59,4 @@ Preferred communication style: Simple, everyday language.
 - **Document Processing**: Handles various file formats including PDF, text, and images
 - **Replit Integration**: Custom Replit plugins for error handling and development tools
 
-The system is designed to handle sensitive legal and financial documents with proper organization, search capabilities, and secure access controls. The architecture supports a complex business structure with multiple legal entities and international operations.
+The system is designed to handle sensitive legal and financial documents with proper organization, search capabilities, and secure access controls. The architecture supports a complex business structure with multiple legal entities and international operations with comprehensive monitoring and real-time intelligence capabilities.
