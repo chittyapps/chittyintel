@@ -22,7 +22,7 @@ export function useChittyBeacon(config: BeaconConfig = {
   flushInterval: 10000
 }) {
   // Disable ChittyBeacon in production environments
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = import.meta.env.DEV;
   const effectiveConfig = {
     ...config,
     enabled: config.enabled && isDevelopment

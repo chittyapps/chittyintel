@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Timeline } from "@/components/timeline";
 import { FinancialChart } from "@/components/financial-chart";
 import { DataSourcesPanel } from "@/components/data-sources";
-import { ChittyBeaconMonitor } from "@/components/chitty-beacon-monitor";
+import { ChittyBeaconDashboard } from "@/components/chitty-beacon-dashboard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,7 +17,7 @@ export default function Dashboard() {
   const [currentPOV, setCurrentPOV] = useState('aribia');
   const [dataMode, setDataMode] = useState<'live' | 'static'>('live');
   const [beaconVisible, setBeaconVisible] = useState(false);
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  const isDevelopment = import.meta.env.DEV;
 
   // Live data hooks
   const { data: liveLoanData, isLoading: loanLoading, error: loanError } = useLiveLoanDetails();
@@ -458,13 +458,13 @@ export default function Dashboard() {
         </div>
       </footer>
 
-      {/* ChittyBeacon Monitor - Development Only */}
+      {/* ChittyBeacon Dashboard - Development Only */}
       {isDevelopment && (
-        <ChittyBeaconMonitor 
+        <ChittyBeaconDashboard 
           isVisible={beaconVisible} 
           onToggle={() => {
             setBeaconVisible(!beaconVisible);
-            beacon.trackUserAction('toggle_beacon_monitor', beaconVisible ? 'close' : 'open');
+            beacon.trackUserAction('toggle_beacon_dashboard', beaconVisible ? 'close' : 'open');
           }}
         />
       )}
