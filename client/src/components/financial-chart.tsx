@@ -23,11 +23,14 @@ export function FinancialChart({ data }: FinancialChartProps) {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 card-shadow">
+    <div className="modern-card rounded-2xl p-6">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-lg font-semibold text-gray-900">Financial Flow Analysis</h3>
-        <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-          <ChartArea className="text-green-600" size={16} />
+        <div>
+          <h3 className="text-lg font-semibold text-foreground mb-1">Financial Flow Analysis</h3>
+          <p className="text-muted-foreground text-sm">Capital contributions vs outstanding obligations</p>
+        </div>
+        <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center">
+          <ChartArea className="text-primary" size={16} />
         </div>
       </div>
       
@@ -38,12 +41,12 @@ export function FinancialChart({ data }: FinancialChartProps) {
               dataKey="date" 
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: '#6B7280' }}
+              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
             />
             <YAxis 
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 12, fill: '#6B7280' }}
+              tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }}
               tickFormatter={formatCurrency}
             />
             <Tooltip 
@@ -51,58 +54,58 @@ export function FinancialChart({ data }: FinancialChartProps) {
                 formatCurrency(value),
                 name === 'contributions' ? 'Capital Contributions' : 'Outstanding Obligations'
               ]}
-              labelStyle={{ color: '#374151' }}
+              labelStyle={{ color: 'hsl(var(--foreground))' }}
               contentStyle={{
-                backgroundColor: 'white',
-                border: '1px solid #E5E7EB',
-                borderRadius: '8px',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                backgroundColor: 'hsl(var(--surface))',
+                border: '1px solid hsl(var(--border))',
+                borderRadius: '12px',
+                boxShadow: '0 8px 32px hsla(0, 0%, 0%, 0.3)'
               }}
             />
             <Line
               type="monotone"
               dataKey="contributions"
-              stroke="#4F46E5"
+              stroke="var(--aribia-purple)"
               strokeWidth={3}
               fill="url(#contributionsGradient)"
-              dot={{ fill: '#4F46E5', strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: '#4F46E5', strokeWidth: 2 }}
+              dot={{ fill: 'var(--aribia-purple)', strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: 'var(--aribia-purple)', strokeWidth: 2 }}
             />
             <Line
               type="monotone"
               dataKey="obligations"
-              stroke="#EF4444"
+              stroke="var(--aribia-red)"
               strokeWidth={3}
               fill="url(#obligationsGradient)"
-              dot={{ fill: '#EF4444', strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: '#EF4444', strokeWidth: 2 }}
+              dot={{ fill: 'var(--aribia-red)', strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: 'var(--aribia-red)', strokeWidth: 2 }}
             />
             <defs>
               <linearGradient id="contributionsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#4F46E5" stopOpacity={0.1}/>
-                <stop offset="95%" stopColor="#4F46E5" stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--aribia-purple)" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="var(--aribia-purple)" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="obligationsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#EF4444" stopOpacity={0.1}/>
-                <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--aribia-red)" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="var(--aribia-red)" stopOpacity={0}/>
               </linearGradient>
             </defs>
           </LineChart>
         </ResponsiveContainer>
       </div>
       
-      <div className="mt-4 flex justify-between text-sm">
+      <div className="mt-4 flex justify-between text-sm border-t border-border pt-4">
         <div className="text-center">
-          <div className="font-semibold text-gray-900">$120K</div>
-          <div className="text-gray-500">Initial Capital</div>
+          <div className="font-semibold text-foreground">$120K</div>
+          <div className="text-muted-foreground">Initial Capital</div>
         </div>
         <div className="text-center">
-          <div className="font-semibold text-gray-900">$302K</div>
-          <div className="text-gray-500">Total Contributions</div>
+          <div className="font-semibold text-foreground">$302K</div>
+          <div className="text-muted-foreground">Total Contributions</div>
         </div>
         <div className="text-center">
-          <div className="font-semibold text-gray-900">$100K</div>
-          <div className="text-gray-500">Active Loan</div>
+          <div className="font-semibold text-foreground">$100K</div>
+          <div className="text-muted-foreground">Active Loan</div>
         </div>
       </div>
     </div>

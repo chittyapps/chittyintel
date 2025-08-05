@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Building, Users, DollarSign, Scale, Gavel } from "lucide-react";
 
 interface TimelineEvent {
   id: number;
@@ -15,100 +16,109 @@ interface TimelineProps {
 }
 
 export function Timeline({ events }: TimelineProps) {
-  const [activeFilter, setActiveFilter] = useState('all');
   const [hoveredEvent, setHoveredEvent] = useState<number | null>(null);
 
-  const filteredEvents = events.filter(event => 
-    activeFilter === 'all' || event.type === activeFilter
-  );
+  const getIcon = (type: string) => {
+    switch (type) {
+      case 'formation': return Building;
+      case 'member': return Users;
+      case 'financial': return DollarSign;
+      case 'ownership': return Scale;
+      default: return Gavel;
+    }
+  };
 
-  const filters = [
-    { id: 'all', label: 'All Events' },
-    { id: 'financial', label: 'Financial' },
-    { id: 'member', label: 'Legal' }
-  ];
-
-  const getColorClasses = (color: string) => {
+  const getColorVar = (color: string) => {
     const colorMap: Record<string, string> = {
-      green: 'bg-green-500',
-      amber: 'bg-amber-500',
-      blue: 'bg-blue-500',
-      purple: 'bg-purple-500',
-      red: 'bg-red-500'
+      green: 'var(--aribia-green)',
+      amber: 'var(--aribia-amber)',
+      blue: 'var(--aribia-blue)',
+      purple: 'var(--aribia-purple)',
+      red: 'var(--aribia-red)'
     };
-    return colorMap[color] || 'bg-gray-500';
+    return colorMap[color] || 'var(--aribia-purple)';
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 card-shadow">
+    <div className="modern-card rounded-2xl p-8 mb-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Legal Intelligence Timeline</h2>
-          <p className="text-gray-600">Corporate evolution and key legal events</p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">ARIBIA Legal Intelligence Timeline</h2>
+          <p className="text-muted-foreground">Corporate evolution and key legal events • 2022-2025</p>
         </div>
-        <div className="flex space-x-2">
-          {filters.map((filter) => (
-            <button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium smooth-hover ${
-                activeFilter === filter.id
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
+        <div className="text-gradient text-sm font-semibold">Interactive Timeline</div>
       </div>
       
-      {/* Timeline */}
-      <div className="relative">
-        <div className="absolute left-0 right-0 top-1/2 h-1 clarity-gradient rounded-full transform -translate-y-1/2"></div>
+      {/* Desktop Horizontal Timeline */}
+      <div className="relative overflow-hidden">
+        {/* Timeline Base Line */}
+        <div className="timeline-gradient h-1 rounded-full mb-8"></div>
         
         {/* Timeline Events */}
-        <div className="flex justify-between items-center relative">
-          {filteredEvents.map((event, index) => (
-            <motion.div
-              key={event.id}
-              className="timeline-marker group cursor-pointer relative"
-              onHoverStart={() => setHoveredEvent(event.id)}
-              onHoverEnd={() => setHoveredEvent(null)}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              <div className={`w-4 h-4 ${getColorClasses(event.color)} rounded-full border-4 border-white shadow-lg z-10 relative`}></div>
-              
-              <AnimatePresence>
-                {hoveredEvent === event.id && (
-                  <motion.div
-                    className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20"
-                    initial={{ opacity: 0, y: -10, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <div className="bg-white rounded-xl p-4 shadow-xl border min-w-64">
-                      <h4 className="font-semibold text-gray-900">{event.title}</h4>
-                      <p className="text-sm text-gray-600 mt-1">{event.date.toLocaleDateString()}</p>
-                      <p className="text-xs text-gray-500 mt-2">{event.description}</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-        
-        {/* Timeline Labels */}
-        <div className="flex justify-between mt-8 text-xs text-gray-500">
-          {filteredEvents.map((event) => (
-            <span key={event.id}>
-              {event.date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })}
-            </span>
-          ))}
+        <div className="flex justify-between items-start relative -mt-10">
+          {events.map((event, index) => {
+            const Icon = getIcon(event.type);
+            const color = getColorVar(event.color);
+            
+            return (
+              <motion.div
+                key={event.id}
+                className="timeline-marker group cursor-pointer relative flex flex-col items-center"
+                onHoverStart={() => setHoveredEvent(event.id)}
+                onHoverEnd={() => setHoveredEvent(null)}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: index * 0.15 }}
+              >
+                {/* Event Icon */}
+                <motion.div
+                  className="w-8 h-8 rounded-xl border-2 border-background flex items-center justify-center mb-3 shadow-lg"
+                  style={{ backgroundColor: color }}
+                  whileHover={{ scale: 1.2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Icon size={14} className="text-background" />
+                </motion.div>
+                
+                {/* Event Date */}
+                <div className="text-xs text-muted-foreground font-medium mb-1">
+                  {event.date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' })}
+                </div>
+                
+                {/* Event Title */}
+                <div className="text-sm font-semibold text-foreground text-center max-w-20">
+                  {event.title.split(' ').slice(0, 2).join(' ')}
+                </div>
+                
+                {/* Hover Tooltip */}
+                <AnimatePresence>
+                  {hoveredEvent === event.id && (
+                    <motion.div
+                      className="absolute top-16 left-1/2 transform -translate-x-1/2 z-20"
+                      initial={{ opacity: 0, y: -10, scale: 0.9 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="glass-card rounded-xl p-4 min-w-64 max-w-80">
+                        <div className="flex items-center space-x-3 mb-2">
+                          <div 
+                            className="w-6 h-6 rounded-lg flex items-center justify-center"
+                            style={{ backgroundColor: color }}
+                          >
+                            <Icon size={12} className="text-background" />
+                          </div>
+                          <h4 className="font-semibold text-foreground">{event.title}</h4>
+                        </div>
+                        <p className="text-sm text-primary mb-2">{event.date.toLocaleDateString()}</p>
+                        <p className="text-sm text-muted-foreground">{event.description}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </div>
