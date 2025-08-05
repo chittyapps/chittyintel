@@ -1,14 +1,27 @@
 import { useState } from "react";
-import { Brain, DollarSign, Percent, AlertTriangle, Scale, Eye, BarChart3 } from "lucide-react";
+import { Brain, DollarSign, Percent, AlertTriangle, Scale, Eye, BarChart3, Wifi, WifiOff, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { Timeline } from "@/components/timeline";
 import { FinancialChart } from "@/components/financial-chart";
+import { DataSourcesPanel } from "@/components/data-sources";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLiveLoanDetails, useLiveTimelineData, useLivePOVAnalysis } from "@/hooks/use-live-data";
 import { aribiaData } from "@/data/aribia-data";
 
 export default function Dashboard() {
   const [currentPOV, setCurrentPOV] = useState('aribia');
+  const [dataMode, setDataMode] = useState<'live' | 'static'>('live');
 
+  // Live data hooks
+  const { data: liveLoanData, isLoading: loanLoading, error: loanError } = useLiveLoanDetails();
+  const { data: liveTimelineData, isLoading: timelineLoading } = useLiveTimelineData();
+  const { data: livePOVData, isLoading: povLoading } = useLivePOVAnalysis(currentPOV);
+
+  // Fallback to static data if live data fails
   const { loanDetails, timelineEvents, financialData } = aribiaData;
+  const isLiveDataAvailable = liveLoanData && !loanError;
 
   const coreMetrics = [
     {
@@ -72,9 +85,26 @@ export default function Dashboard() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
+              {/* Live Data Status Indicator */}
+              <div className="flex items-center gap-2">
+                {isLiveDataAvailable ? (
+                  <Badge variant="outline" className="bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300">
+                    <Wifi className="w-3 h-3 mr-1" />
+                    Live Data
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" className="bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-300">
+                    <WifiOff className="w-3 h-3 mr-1" />
+                    Static Data
+                  </Badge>
+                )}
+              </div>
+              
               <div className="text-right">
                 <p className="text-sm font-semibold text-foreground">Multi-POV Dashboard</p>
-                <p className="text-xs text-muted-foreground">Real-time Legal Intelligence</p>
+                <p className="text-xs text-muted-foreground">
+                  {isLiveDataAvailable ? 'Real-time Legal Intelligence' : 'Using Static Demo Data'}
+                </p>
               </div>
               <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center">
                 <Eye className="text-primary" size={20} />
@@ -85,8 +115,28 @@ export default function Dashboard() {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        {/* POV Selector */}
-        <div className="modern-card rounded-2xl p-6 mb-8">
+        {/* Main Tabs */}
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger 
+              value="dashboard" 
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Intelligence Dashboard
+            </TabsTrigger>
+            <TabsTrigger 
+              value="data-sources"
+              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
+              <Wifi className="w-4 h-4 mr-2" />
+              Data Sources
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard" className="space-y-8">
+            {/* POV Selector */}
+            <div className="modern-card rounded-2xl p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-xl font-bold text-foreground mb-1">Intelligence Perspective</h2>
@@ -316,9 +366,15 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Financial Chart */}
-          <FinancialChart data={financialData} />
-        </div>
+            {/* Financial Chart */}
+            <FinancialChart data={financialData} />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="data-sources">
+            <DataSourcesPanel />
+          </TabsContent>
+        </Tabs>
       </div>
 
       {/* Modern Footer */}
