@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [currentPOV, setCurrentPOV] = useState('aribia');
   const [dataMode, setDataMode] = useState<'live' | 'static'>('live');
   const [beaconVisible, setBeaconVisible] = useState(false);
+  const isDevelopment = process.env.NODE_ENV === 'development';
 
   // Live data hooks
   const { data: liveLoanData, isLoading: loanLoading, error: loanError } = useLiveLoanDetails();
@@ -457,14 +458,16 @@ export default function Dashboard() {
         </div>
       </footer>
 
-      {/* ChittyBeacon Monitor */}
-      <ChittyBeaconMonitor 
-        isVisible={beaconVisible} 
-        onToggle={() => {
-          setBeaconVisible(!beaconVisible);
-          beacon.trackUserAction('toggle_beacon_monitor', beaconVisible ? 'close' : 'open');
-        }}
-      />
+      {/* ChittyBeacon Monitor - Development Only */}
+      {isDevelopment && (
+        <ChittyBeaconMonitor 
+          isVisible={beaconVisible} 
+          onToggle={() => {
+            setBeaconVisible(!beaconVisible);
+            beacon.trackUserAction('toggle_beacon_monitor', beaconVisible ? 'close' : 'open');
+          }}
+        />
+      )}
     </div>
   );
 }

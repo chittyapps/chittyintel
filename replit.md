@@ -36,7 +36,7 @@ Preferred communication style: Simple, everyday language.
 - Secure file access controls for sensitive legal documents
 
 ## Monitoring and Analytics
-- **ChittyBeacon**: Custom monitoring and telemetry system for real-time legal intelligence tracking
+- **ChittyBeacon**: Internal development monitoring system (development-only)
   - Event tracking for legal events, financial transactions, and user interactions
   - System health monitoring with database connection status
   - Performance analytics with API response time monitoring
@@ -44,6 +44,8 @@ Preferred communication style: Simple, everyday language.
   - POV (Point of View) switching analytics for stakeholder perspective tracking
   - Live event streaming with configurable flush intervals
   - Development console integration with grouped event logging
+  - **Security**: Automatically disabled in production environments
+  - **Privacy**: No monitoring UI visible to end users
 
 ## Production Database Integration
 - **ChittyChain Database**: Corporate governance and legal events

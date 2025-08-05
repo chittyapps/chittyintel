@@ -104,19 +104,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // ChittyBeacon monitoring endpoints
+  // ChittyBeacon monitoring endpoints - Development only
   app.post('/api/beacon/events', async (req, res) => {
     try {
+      // Only process beacon events in development
+      if (process.env.NODE_ENV !== 'development') {
+        return res.json({ 
+          success: true, 
+          processed: 0,
+          message: 'ChittyBeacon disabled in production',
+          timestamp: new Date().toISOString()
+        });
+      }
+
       const { events } = req.body;
       
       // Log beacon events to console in development
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`🔔 ChittyBeacon received ${events?.length || 0} events`);
-        events?.forEach((event: any) => {
-          const timestamp = new Date(event.timestamp).toISOString();
-          console.log(`[${timestamp}] ${event.severity.toUpperCase()} ${event.type}: ${event.message}`);
-        });
-      }
+      console.log(`🔔 ChittyBeacon received ${events?.length || 0} events`);
+      events?.forEach((event: any) => {
+        const timestamp = new Date(event.timestamp).toISOString();
+        console.log(`[${timestamp}] ${event.severity.toUpperCase()} ${event.type}: ${event.message}`);
+      });
 
       // Store events (for now just acknowledge receipt)
       res.json({ 
@@ -132,6 +140,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/beacon/status', async (req, res) => {
     try {
+      // Only provide status in development
+      if (process.env.NODE_ENV !== 'development') {
+        return res.status(404).json({ error: 'ChittyBeacon not available in production' });
+      }
+
       // Return beacon system status
       res.json({
         status: 'active',

@@ -21,6 +21,12 @@ export function useChittyBeacon(config: BeaconConfig = {
   bufferSize: 50,
   flushInterval: 10000
 }) {
+  // Disable ChittyBeacon in production environments
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const effectiveConfig = {
+    ...config,
+    enabled: config.enabled && isDevelopment
+  };
   const [events, setEvents] = useState<BeaconEvent[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const eventBuffer = useRef<BeaconEvent[]>([]);
@@ -33,7 +39,7 @@ export function useChittyBeacon(config: BeaconConfig = {
     severity: BeaconEvent['severity'] = 'info',
     metadata?: Record<string, any>
   ) => {
-    if (!config.enabled) return;
+    if (!effectiveConfig.enabled) return;
 
     const event: BeaconEvent = {
       id: `beacon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -45,7 +51,7 @@ export function useChittyBeacon(config: BeaconConfig = {
     };
 
     // Add to local state
-    setEvents(prev => [...prev.slice(-config.bufferSize + 1), event]);
+    setEvents(prev => [...prev.slice(-effectiveConfig.bufferSize + 1), event]);
     
     // Add to buffer for transmission
     eventBuffer.current.push(event);
@@ -64,8 +70,8 @@ export function useChittyBeacon(config: BeaconConfig = {
       const eventsToSend = [...eventBuffer.current];
       eventBuffer.current = [];
 
-      if (config.endpoint) {
-        await fetch(config.endpoint, {
+      if (effectiveConfig.endpoint) {
+        await fetch(effectiveConfig.endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ events: eventsToSend })
@@ -73,7 +79,7 @@ export function useChittyBeacon(config: BeaconConfig = {
       }
 
       // Log to console in development
-      if (process.env.NODE_ENV === 'development') {
+      if (isDevelopment) {
         console.group('🔔 ChittyBeacon Events');
         eventsToSend.forEach(event => {
           const icon = {
@@ -182,17 +188,17 @@ export function useChittyBeacon(config: BeaconConfig = {
 
   // Initialize beacon
   useEffect(() => {
-    if (!config.enabled) return;
+    if (!effectiveConfig.enabled) return;
 
     // Initial system status
     logEvent('system', 'ChittyBeacon initialized', 'success', {
-      config,
+      config: effectiveConfig,
       user_agent: navigator.userAgent,
       timestamp: new Date().toISOString()
     });
 
     // Setup periodic flush
-    flushTimer.current = setInterval(flushEvents, config.flushInterval);
+    flushTimer.current = setInterval(flushEvents, effectiveConfig.flushInterval);
 
     // Monitor system health
     monitorSystemHealth();
@@ -204,7 +210,7 @@ export function useChittyBeacon(config: BeaconConfig = {
       }
       flushEvents(); // Final flush
     };
-  }, [config.enabled]);
+  }, [effectiveConfig.enabled]);
 
   return {
     events,
