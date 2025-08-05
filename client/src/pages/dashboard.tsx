@@ -165,49 +165,153 @@ export default function Dashboard() {
 
             <div className="space-y-4">
               {currentPOV === 'aribia' && (
-                <>
-                  <div className="p-4 border border-border rounded-xl">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="p-4 border border-green-500/30 bg-green-500/5 rounded-xl">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-foreground">Pre-Marital Asset</span>
+                      <span className="font-medium text-foreground">Pre-Marital Asset Defense</span>
                       <span className="text-sm font-semibold text-green-400">95%</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">ARIBIA formed 5 months before marriage</p>
+                    <p className="text-sm text-muted-foreground">ARIBIA formed 5 months before marriage (Oct 2022)</p>
                   </div>
-                  <div className="p-4 border border-border rounded-xl">
+                  <div className="p-4 border border-green-500/30 bg-green-500/5 rounded-xl">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-foreground">Separate Funding</span>
+                      <span className="font-medium text-foreground">Separate Property Funding</span>
                       <span className="text-sm font-semibold text-green-400">90%</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">Colombian property funded with pre-marital assets</p>
+                    <p className="text-sm text-muted-foreground">Colombian property purchased with pre-marital funds</p>
                   </div>
-                </>
-              )}
-              {currentPOV === 'sharon' && (
-                <>
-                  <div className="p-4 border border-border rounded-xl">
+                  <div className="p-4 border border-blue-500/30 bg-blue-500/5 rounded-xl">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-foreground">Loan Security</span>
+                      <span className="font-medium text-foreground">Corporate Compliance</span>
+                      <span className="text-sm font-semibold text-blue-400">85%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Proper member removal following operating agreement</p>
+                  </div>
+                </motion.div>
+              )}
+              
+              {currentPOV === 'sharon' && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="p-4 border border-green-500/30 bg-green-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Secured Loan Position</span>
                       <span className="text-sm font-semibold text-green-400">100%</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">$100K secured by two properties</p>
+                    <p className="text-sm text-muted-foreground">$100K loan secured by Medellín + City Studio properties</p>
                   </div>
-                  <div className="p-4 border border-border rounded-xl">
+                  <div className="p-4 border border-green-500/30 bg-green-500/5 rounded-xl">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-foreground">Administrative Authority</span>
+                      <span className="font-medium text-foreground">Executive Authority</span>
                       <span className="text-sm font-semibold text-green-400">95%</span>
                     </div>
                     <p className="text-sm text-muted-foreground">Appointed Interim President April 2025</p>
                   </div>
-                </>
-              )}
-              {currentPOV !== 'aribia' && currentPOV !== 'sharon' && (
-                <div className="p-4 border border-border rounded-xl">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-foreground">Analysis Available</span>
-                    <span className="text-sm font-semibold text-blue-400">--</span>
+                  <div className="p-4 border border-purple-500/30 bg-purple-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Non-Marital Interest</span>
+                      <span className="text-sm font-semibold text-purple-400">100%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">15% IT CAN BE LLC member, no marital connection</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Select ARIBIA LLC or Sharon Jones for detailed analysis</p>
-                </div>
+                </motion.div>
+              )}
+              
+              {currentPOV === 'luisa' && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="p-4 border border-amber-500/30 bg-amber-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Marital Asset Claims</span>
+                      <span className="text-sm font-semibold text-amber-400">65%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Claims ARIBIA as marital property despite formation timing</p>
+                  </div>
+                  <div className="p-4 border border-red-500/30 bg-red-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Improper Removal Challenge</span>
+                      <span className="text-sm font-semibold text-red-400">45%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Disputes validity of member removal process</p>
+                  </div>
+                  <div className="p-4 border border-red-500/30 bg-red-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">TRO Emergency Relief</span>
+                      <span className="text-sm font-semibold text-red-400">25%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Temporary restraining order for asset protection</p>
+                  </div>
+                </motion.div>
+              )}
+              
+              {currentPOV === 'legal' && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="p-4 border border-green-500/30 bg-green-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Corporate Veil Integrity</span>
+                      <span className="text-sm font-semibold text-green-400">88%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Strong entity separation with comprehensive documentation</p>
+                  </div>
+                  <div className="p-4 border border-green-500/30 bg-green-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Timeline Evidence</span>
+                      <span className="text-sm font-semibold text-green-400">92%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Clear chronological formation record pre-marriage</p>
+                  </div>
+                  <div className="p-4 border border-red-500/30 bg-red-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">TRO Standard Analysis</span>
+                      <span className="text-sm font-semibold text-red-400">40%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Emergency relief standard questionable on merits</p>
+                  </div>
+                </motion.div>
+              )}
+              
+              {currentPOV === 'colombia' && (
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="p-4 border border-green-500/30 bg-green-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Foreign Investment Compliance</span>
+                      <span className="text-sm font-semibold text-green-400">90%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Proper documentation for Colombian property acquisition</p>
+                  </div>
+                  <div className="p-4 border border-amber-500/30 bg-amber-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Eviction Proceedings</span>
+                      <span className="text-sm font-semibold text-amber-400">75%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">Legal process requires specialized litigation counsel</p>
+                  </div>
+                  <div className="p-4 border border-blue-500/30 bg-blue-500/5 rounded-xl">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-foreground">Asset Recovery Rights</span>
+                      <span className="text-sm font-semibold text-blue-400">80%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">ARIBIA ownership of appliances well-documented</p>
+                  </div>
+                </motion.div>
               )}
             </div>
           </div>
