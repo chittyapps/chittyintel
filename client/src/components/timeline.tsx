@@ -30,13 +30,13 @@ export function Timeline({ events }: TimelineProps) {
 
   const getColorVar = (color: string) => {
     const colorMap: Record<string, string> = {
-      green: 'var(--chitty-green)',
+      green: 'var(--chitty-primary)',
       amber: 'var(--chitty-amber)',
       blue: 'var(--chitty-blue)',
-      purple: 'var(--chitty-purple)',
+      purple: 'var(--chitty-primary)',
       red: 'var(--chitty-red)'
     };
-    return colorMap[color] || 'var(--chitty-purple)';
+    return colorMap[color] || 'var(--chitty-primary)';
   };
 
   return (

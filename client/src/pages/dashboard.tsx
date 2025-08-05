@@ -15,7 +15,7 @@ export default function Dashboard() {
       title: "Loan Principal",
       value: `$${loanDetails.principal.toLocaleString()}`,
       icon: DollarSign,
-      color: 'var(--chitty-green)'
+      color: 'var(--chitty-primary)'
     },
     {
       title: "Interest Rate",

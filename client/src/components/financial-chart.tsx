@@ -65,11 +65,11 @@ export function FinancialChart({ data }: FinancialChartProps) {
             <Line
               type="monotone"
               dataKey="contributions"
-              stroke="var(--chitty-purple)"
+              stroke="var(--chitty-primary)"
               strokeWidth={3}
               fill="url(#contributionsGradient)"
-              dot={{ fill: 'var(--chitty-purple)', strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: 'var(--chitty-purple)', strokeWidth: 2 }}
+              dot={{ fill: 'var(--chitty-primary)', strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: 'var(--chitty-primary)', strokeWidth: 2 }}
             />
             <Line
               type="monotone"
@@ -82,8 +82,8 @@ export function FinancialChart({ data }: FinancialChartProps) {
             />
             <defs>
               <linearGradient id="contributionsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="var(--chitty-purple)" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="var(--chitty-purple)" stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--chitty-primary)" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="var(--chitty-primary)" stopOpacity={0}/>
               </linearGradient>
               <linearGradient id="obligationsGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="var(--chitty-red)" stopOpacity={0.2}/>
