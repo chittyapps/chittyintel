@@ -137,7 +137,7 @@ class ChittyBeaconCore {
 
   private createAlert(level: BeaconAlert['level'], title: string, message: string, source: string): void {
     const alert: BeaconAlert = {
-      id: `alert_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `alert_${Date.now()}`,
       level,
       title,
       message,
